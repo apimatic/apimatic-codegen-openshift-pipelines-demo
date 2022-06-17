@@ -16,7 +16,7 @@ Prior knowledge of Tekton and APIMatic CodeGen is not required for this demonstr
 
 ## Prerequisites
 
-You need an OpenShift 4 cluster to follow the steps given in this demonstration. If you don't have an existing cluster, go to http://try.openshift.com and register for free in order to get an OpenShift 4 cluster up and running on AWS within minutes.
+You will need an OpenShift 4 cluster to follow the steps given in this demonstration. If you don't have an existing cluster, go to http://try.openshift.com and register for free in order to get an OpenShift 4 cluster up and running on AWS within minutes.
 
 ## Demonstration
 
