@@ -1,0 +1,72 @@
+name: Set Up RedHat OpenShift Infrastructure
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      - uses: actions/checkout@v3
+          
+      - name: Get OpenShift Tools
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: 'mirror'
+          skip_cache: true
+          oc: 'latest'
+          tkn: 'latest'
+          
+      - name: Login to OpenShift Cluster
+        run: oc login --token=${{ secrets.OPENSHIFT_LOGIN_TOKEN }} --server=${{ secrets.OPENSHIFT_LOGIN_SERVER }}
+        
+      - name: Install RedHat Pipelines and APIMatic CodeGen Operator
+        run: |
+          oc apply -f setup/operatorsassets.yaml
+        
+      - name: Wait for Operators to be installed
+        run: |
+          sleep 70
+        
+      - name: Create Namespace if not exists
+        run: |
+          oc get ns ${{ secrets.OPENSHIFT_PROJECT }} 2>/dev/null || oc new-project ${{ secrets.OPENSHIFT_PROJECT }} --description='Project to configure pipelines demo in' --display-name='APIMAtic CodeGen Pipelines Demo'
+          
+      - name: Create APIMatic CodeGen instance
+        run: |
+          sed -i -e 's/LICENSE_PLACE_HOLDER/${{ secrets.APIMATICLICENSEBLOB }}/' setup/codegen.yaml
+          oc apply -f setup/codegen.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+          
+          
+      - name: Apply pipeline tasks
+        run: |
+          oc apply -f .tekton/apply-manifest-task.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+          oc apply -f .tekton/update-deployment-task.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+          oc apply -f .tekton/get-portal-zip.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+          oc apply -f .tekton/zip-build-folder-task.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+          
+      - name: Apply pipeline
+        run: |
+          oc apply -f .tekton/pipeline.yaml -n ${{ secrets.OPENSHIFT_PROJECT }}
+        
+      - name: Echo pipeline
+        run: |
+          tkn pipeline describe build-and-deploy -n ${{ secrets.OPENSHIFT_PROJECT }} 
+          
+      - name: Trigger pipeline
+        run: |
+          tkn pipeline start build-and-deploy \
+          -w name=shared-workspace,volumeClaimTemplateFile=.tekton/persistent_volume_claim.yaml \
+          -p deployment-name=apimatic-dx-portal-demo \
+          -p git-url=https://github.com/${{ github.repository }} \
+          -p IMAGE="image-registry.openshift-image-registry.svc:5000/${{ secrets.OPENSHIFT_PROJECT }}/apimatic-dx-portal-demo" \
+          -p apimatic-codegen-service="apimatic-codegen.${{ secrets.OPENSHIFT_PROJECT }}.svc.cluster.local" \
+          --use-param-defaults \
+          --showlog=true \
+          -n ${{ secrets.OPENSHIFT_PROJECT }}
+          
+          
+      
+            

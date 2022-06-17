@@ -1,0 +1,25 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshiftpipeline-operator
+  namespace: openshift-operators
+spec:
+  channel: stable
+  name: openshift-pipelines-operator-rh
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: apimatic-codegen-operator
+  namespace: openshift-operators
+spec:
+  channel: beta
+  name: apimatic-codegen-operator
+  source: certified-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic
+---

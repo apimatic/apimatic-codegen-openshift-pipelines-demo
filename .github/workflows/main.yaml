@@ -1,0 +1,38 @@
+name: OpenShift Pipeline On Push
+on:
+  push:
+    branches: [ "main" ]
+    
+    paths:  
+      - 'Portal/**'
+    
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Get OpenShift Tools
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          source: 'mirror'
+          skip_cache: true
+          oc: 'latest'
+          tkn: 'latest'
+          
+      - name: Login to OpenShift Cluster
+        run: oc login --token=${{ secrets.OPENSHIFT_LOGIN_TOKEN }} --server=${{ secrets.OPENSHIFT_LOGIN_SERVER }}
+        
+      - name: Trigger pipeline
+        run: |
+          tkn pipeline start build-and-deploy \
+          -w name=shared-workspace,volumeClaimTemplateFile=.tekton/persistent_volume_claim.yaml \
+          -p deployment-name=apimatic-dx-portal-demo \
+          -p git-url=https://github.com/${{ github.repository }} \
+          -p IMAGE="image-registry.openshift-image-registry.svc:5000/${{ secrets.OPENSHIFT_PROJECT }}/apimatic-dx-portal-demo" \
+          -p apimatic-codegen-service="apimatic-codegen.${{ secrets.OPENSHIFT_PROJECT }}.svc.cluster.local" \
+          --use-param-defaults \
+          --showlog=true \
+          -n ${{ secrets.OPENSHIFT_PROJECT }}
+          
