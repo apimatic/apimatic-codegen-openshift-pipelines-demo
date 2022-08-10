@@ -1,0 +1,17 @@
+{
+  "$schema": "https://titan.apimatic.io/api/build/schema",
+  "buildFileVersion": "1",
+  "generatePortal": {
+    "languageConfig": {
+      "http": {}
+    },
+    "pageTitle": " APIMatic Core Service V3 (Pre-Alpha Release)",
+    "navTitle": " APIMatic Core Service V3 (Pre-Alpha Release)",
+    "logoUrl": "static/images/logo.png",
+    "logoLink": "https://www.apimatic.io",
+    "portalSettings": {
+      "enableConsoleCalls": false
+    },
+    "faviconUrl": "https://docs.apimatic.io/favicon.ico"
+  }
+}
