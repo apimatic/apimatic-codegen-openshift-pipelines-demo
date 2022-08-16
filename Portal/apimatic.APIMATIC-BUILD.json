@@ -10,7 +10,7 @@
     "logoUrl": "static/images/logo.png",
     "logoLink": "https://www.apimatic.io",
     "portalSettings": {
-      "enableConsoleCalls": false
+      "enableConsoleCalls": true
     },
     "faviconUrl": "https://docs.apimatic.io/favicon.ico"
   }
