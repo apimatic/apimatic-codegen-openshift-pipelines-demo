@@ -1,11 +1,23 @@
 toc:
-  - group: Getting Started
-    items:
-      - page: Introduction
-        file: readme.md
-      - page: About Me
-        file: about.md
-  - generate: API Endpoints
-    from: endpoints
-  - generate: Models
-    from: models
+- items:
+  - file: guides/send-a-message.md
+    slug: send-a-message
+    page: Send a Message
+  - file: guides/send-message-templates.md
+    slug: send-message-templates
+    page: Send Message Templates
+  - file: guides/build-a-chatbot.md
+    slug: build-a-chatbot
+    page: Build a Conversational Chatbot
+  group: Guides
+  slug: guides
+- items:
+  - file: sdk-packages/available-packages.md
+    slug: available-packages
+    page: Available packages
+  group: SDK Packages
+  slug: sdk-packages
+- generate: API Endpoints
+  from: endpoints
+- generate: Models
+  from: models
