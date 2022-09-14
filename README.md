@@ -1,14 +1,14 @@
 # APIMatic CodeGen OpenShift Pipelines Demo
 
-APIMatic CodeGen is your go-to cloud-ready provider for making the customer on-boarding experience of your APIs a seamless experience. With a flexible set of inputs in the form of an API Portal Build configuration file along with the associated API specification file, logo images and optional custom content, the APIMatic CodeGen app outputs DX Portal artifacts, including SDKs and Docs, that can be deployed in your environment of choice. [OpenShift Pipelines](https://cloud.redhat.com/blog/introducing-openshift-pipelines) is a CI/CD solution for building pipelines using [Tekton](https://tekton.dev).
+APIMatic CodeGen provides an automated SDK and Documentation generation solution for REST APIs. With a flexible set of inputs in the form of API specification files and custom documentation written in markdown, the APIMatic CodeGen app can generate SDKs and SDK Documentation that can be deployed in your environment of choice.
 
-Following the steps given in this demo, you will see that by using the OpenShift Pipelines operator together with the RedHat-certified [APIMatic CodeGen Operator](https://github.com/apimatic/apimatic-codegen-operator), a complete automation flow can be devised to take your API Portal configurations from source to production-ready DX portal deployment a painless task. You can even use this demo as a starter project to devise your own Source-to-API DX Portal automation flow design without much hassle.
+Following the steps given in this demo, you will see that by using the OpenShift Pipelines operator together with the RedHat-certified [APIMatic CodeGen Operator](https://github.com/apimatic/apimatic-codegen-operator), a complete automation workflow can be devised to keep your SDKs and API Portal up to date. You can even use this demo as a starter project to devise your own Source-to-API Portal automation flow design without much hassle.
 
 ## Project Info
 
 If you would like to know more about how this project is set up and what the different directories and files are for, you can find that information [here](./docs/demo_structure.md). You can view that information later as it is not necessary to understand it to proceed with the demonstration.
 
-Prior knowledge of Tekton and APIMatic CodeGen is not required for this demonstration as all the required configuration are set up in the [GitHub actions](./.github/workflows/). However, you can find more information on these in the following links:
+Prior knowledge of Tekton and APIMatic CodeGen is not required for this demonstration as all the required configurations are set up in the [GitHub actions](./.github/workflows/). However, you can find more information on these in the following links:
 
 - [Tekton Docs](https://tekton.dev/docs/)
 
@@ -50,7 +50,7 @@ With your OpenShift 4 cluster setup, we can now proceed with the demonstration u
 
     ![Namespace](./docs/6.PNG)
 
-  Once these are setup, your GitHub Repo secrets page should be as shown below:
+  Once these are set up, your GitHub Repo secrets page should be as shown below:
 
   ![GitHub Secrets](./docs/8.PNG)
 
@@ -81,7 +81,7 @@ With your OpenShift 4 cluster setup, we can now proceed with the demonstration u
 
   With an initial DX Portal set up, you can now make changes in the contents of the [Portal](./Portal/) directory. Once the changes are pushed into the _main_ branch, the [main.yaml](./.github/workflows/main.yaml) GitHub action will be triggered which will in turn start up the _build-and-deploy_ Tekton pipeline. At the end, you can view the updated DX portal using the route URL as before.
 
-  To demonstrate this, suppose we make the following changes to the [APIMATIC-BUILD.json](./Portal/APIMATIC-BUILD.json) file:
+  To demonstrate this, we'll make some changes to the Portal's color scheme defined in `portalSettings`` in the [APIMATIC-BUILD.json](./Portal/APIMATIC-BUILD.json) file:
 
   ```json
   {
@@ -126,9 +126,7 @@ With your OpenShift 4 cluster setup, we can now proceed with the demonstration u
   ![2ndpipelinerun](./docs/15.PNG)
   ![Updated Portal View](./docs/16.PNG)
 
-  Admittedly, it's not the best-looking API DX portal in the world but the emphasis was on demonstrating the flexibility APIMatic CodeGen offers in tweaking your DX portal to look just the way you want.
-
-  Since this is a CI/CD pipeline demo after all, feel free to keep making changes in the APIMatic Build file, commit the changes and see how your DX portal appearance alters accordingly.
+  Feel free to keep making changes in the APIMatic Build file, commit the changes and see how your Portals appearance alters accordingly.
 
   You can make these and many more changes by using the [APIMatic CodeGen Build File Reference](https://apimatic-core-v3-docs.netlify.app/#/http/generating-api-portal/build-file-reference).
 
@@ -145,7 +143,7 @@ APIMatic [C] provides various sources of technical support.
 
 - Please refer to the [APIMatic contact page](https://www.apimatic.io/contact/) to select a support resource you find suitable for your issue.
 - To request additional features in the future, or if you notice any discrepancy regarding this document, please drop an email to [support@apimatic.io](mailto:support@apimatic.io).
-
+- The sample API Specification provided in this demo was created by APIMatic using the publicly available [Postman collection](https://documenter.getpostman.com/view/13382743/UVC5FTHT) for the Whatsapp Cloud API. 
 ### Copyrights
 
 [C] Copyright 2022 APIMatic
